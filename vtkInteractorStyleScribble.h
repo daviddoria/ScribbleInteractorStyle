@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * the selections.
 */
 
-#ifndef InteractorStyleScribble_H
-#define InteractorStyleScribble_H
+#ifndef vtkInteractorStyleScribble_H
+#define vtkInteractorStyleScribble_H
 
 #include <vtkImageTracerWidget.h>
 #include <vtkInteractorStyleImage.h> // superclass
@@ -32,13 +32,13 @@ class vtkImageSlice;
 class vtkImageData;
 class vtkPolyData;
 
-class vtkScribbleInteractorStyle : public vtkInteractorStyleImage
+class vtkInteractorStyleScribble : public vtkInteractorStyleImage
 {
 public:
-  static vtkScribbleInteractorStyle* New();
-  vtkTypeMacro(vtkScribbleInteractorStyle, vtkInteractorStyleImage);
+  static vtkInteractorStyleScribble* New();
+  vtkTypeMacro(vtkInteractorStyleScribble, vtkInteractorStyleImage);
 
-  vtkScribbleInteractorStyle();
+  vtkInteractorStyleScribble();
 
   void OnLeftButtonDown();
   void OnLeftButtonUp();

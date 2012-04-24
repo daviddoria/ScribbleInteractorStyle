@@ -7,7 +7,7 @@
 #include <vtkRenderWindow.h>
 #include <vtkSmartPointer.h>
 
-#include "vtkScribbleInteractorStyle.h"
+#include "vtkInteractorStyleScribble.h"
 
 void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
 
@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
   // Setup render window interactor
   vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
     vtkSmartPointer<vtkRenderWindowInteractor>::New();
-  vtkSmartPointer<vtkScribbleInteractorStyle> scribbleInteractorStyle =
-    vtkSmartPointer<vtkScribbleInteractorStyle>::New();
+  vtkSmartPointer<vtkInteractorStyleScribble> scribbleInteractorStyle =
+    vtkSmartPointer<vtkInteractorStyleScribble>::New();
 
   vtkSmartPointer<vtkCallbackCommand> callback =
     vtkSmartPointer<vtkCallbackCommand>::New();
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 
 void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData )
 {
-  vtkScribbleInteractorStyle* scribbleInteractorStyle = static_cast<vtkScribbleInteractorStyle*>(clientData);
+  vtkInteractorStyleScribble* scribbleInteractorStyle = static_cast<vtkInteractorStyleScribble*>(clientData);
   vtkPoints* points = scribbleInteractorStyle->GetSelection();
   std::cout << "There are " << points->GetNumberOfPoints() << " points in the selection." << std::endl;
 }

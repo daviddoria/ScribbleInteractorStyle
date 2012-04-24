@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "vtkScribbleInteractorStyle.h"
+#include "vtkInteractorStyleScribble.h"
 
 // VTK
 #include <vtkActor.h>
@@ -33,9 +33,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 
-vtkStandardNewMacro(vtkScribbleInteractorStyle);
+vtkStandardNewMacro(vtkInteractorStyleScribble);
 
-vtkScribbleInteractorStyle::vtkScribbleInteractorStyle()
+vtkInteractorStyleScribble::vtkInteractorStyleScribble()
 {
   this->ScribbleEvent = vtkCommand::UserEvent + 1;
 
@@ -47,35 +47,35 @@ vtkScribbleInteractorStyle::vtkScribbleInteractorStyle()
   this->Tracer->HandleMiddleMouseButtonOff();
 
   // Update the selection when the EndInteraction event is fired.
-  this->Tracer->AddObserver(vtkCommand::EndInteractionEvent, this, &vtkScribbleInteractorStyle::CatchWidgetEvent);
+  this->Tracer->AddObserver(vtkCommand::EndInteractionEvent, this, &vtkInteractorStyleScribble::CatchWidgetEvent);
 }
 
-void vtkScribbleInteractorStyle::SetColorToGreen()
+void vtkInteractorStyleScribble::SetColorToGreen()
 {
   this->Tracer->GetLineProperty()->SetColor(0,1,0);
 }
 
-void vtkScribbleInteractorStyle::SetColorToRed()
+void vtkInteractorStyleScribble::SetColorToRed()
 {
   this->Tracer->GetLineProperty()->SetColor(1,0,0);
 }
 
-void vtkScribbleInteractorStyle::OnLeftButtonDown()
+void vtkInteractorStyleScribble::OnLeftButtonDown()
 {
   vtkInteractorStyleImage::OnMiddleButtonDown();
 }
 
-void vtkScribbleInteractorStyle::OnLeftButtonUp()
+void vtkInteractorStyleScribble::OnLeftButtonUp()
 {
   vtkInteractorStyleImage::OnMiddleButtonUp();
 }
 
-vtkPoints* vtkScribbleInteractorStyle::GetSelection()
+vtkPoints* vtkInteractorStyleScribble::GetSelection()
 {
   return this->Selection;
 }
 
-void vtkScribbleInteractorStyle::InitializeTracer(vtkImageSlice* imageSlice)
+void vtkInteractorStyleScribble::InitializeTracer(vtkImageSlice* imageSlice)
 {
   //std::cout << "Enter InitializeTracer()" << std::endl;
   //this->CurrentRenderer->AddActor(imageSlice);
@@ -87,7 +87,7 @@ void vtkScribbleInteractorStyle::InitializeTracer(vtkImageSlice* imageSlice)
   this->Tracer->On();
 }
 
-void vtkScribbleInteractorStyle::CatchWidgetEvent(vtkObject* caller, long unsigned int eventId, void* callData)
+void vtkInteractorStyleScribble::CatchWidgetEvent(vtkObject* caller, long unsigned int eventId, void* callData)
 {
   // Get the tracer object (this is the object that triggered this event)
   vtkImageTracerWidget* tracer = static_cast<vtkImageTracerWidget*>(caller);
@@ -119,7 +119,7 @@ void vtkScribbleInteractorStyle::CatchWidgetEvent(vtkObject* caller, long unsign
   std::cout << "Exit CatchWidgetEvent()" << std::endl;
 };
 
-void vtkScribbleInteractorStyle::Refresh()
+void vtkInteractorStyleScribble::Refresh()
 {
   this->CurrentRenderer->Render();
   this->Interactor->GetRenderWindow()->Render();

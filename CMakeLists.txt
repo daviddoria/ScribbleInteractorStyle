@@ -5,5 +5,5 @@ Project(ScribbleInteractorStyle)
 FIND_PACKAGE(VTK REQUIRED)
 INCLUDE( ${USE_VTK_FILE} )
 
-ADD_EXECUTABLE(ScribbleInteractorStyle ScribbleInteractorStyleExample.cpp vtkScribbleInteractorStyle.cxx)
+ADD_EXECUTABLE(ScribbleInteractorStyle ScribbleInteractorStyleExample.cpp vtkInteractorStyleScribble.cxx)
 TARGET_LINK_LIBRARIES(ScribbleInteractorStyle ${VTK_LIBRARIES})
