@@ -7,3 +7,6 @@ INCLUDE( ${USE_VTK_FILE} )
 
 ADD_EXECUTABLE(ScribbleInteractorStyle ScribbleInteractorStyleExample.cpp vtkInteractorStyleScribble.cxx)
 TARGET_LINK_LIBRARIES(ScribbleInteractorStyle ${VTK_LIBRARIES})
+
+ADD_LIBRARY(libScribble vtkInteractorStyleScribble.cxx)
+TARGET_LINK_LIBRARIES(libScribble ${VTK_LIBRARIES})

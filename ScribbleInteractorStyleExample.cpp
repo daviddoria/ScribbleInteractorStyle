@@ -73,9 +73,9 @@ void CreateImage(vtkImageData* const image)
   image->AllocateScalars(VTK_UNSIGNED_CHAR, 3);
 
   // Make the image red
-  for(unsigned int i = 0; i < dims[0]; ++i)
+  for(int i = 0; i < dims[0]; ++i)
   {
-    for(unsigned int j = 0; j < dims[0]; ++j)
+    for(int j = 0; j < dims[0]; ++j)
     {
     unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i,j,0));
     pixel[0] = 255;
