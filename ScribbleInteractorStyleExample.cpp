@@ -10,14 +10,14 @@
 
 void MySlot(vtkPolyData*);
 
+void CreateImage(vtkImageData* const);
 int main(int argc, char* argv[])
 {
+  // Create an image
   vtkSmartPointer<vtkImageData> image =
     vtkSmartPointer<vtkImageData>::New();
-  int dims[3] = {100,100,1};
-  image->SetDimensions(dims);
-  image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
-
+  CreateImage(image);
+  
   // Create an actor
   vtkSmartPointer<vtkImageActor> actor =
     vtkSmartPointer<vtkImageActor>::New();
@@ -57,4 +57,23 @@ int main(int argc, char* argv[])
 void MySlot(vtkPolyData* polydata)
 {
   std::cout << "Slot called." << std::endl;
+}
+
+void CreateImage(vtkImageData* const image)
+{
+  int dims[3] = {100,100,1};
+  image->SetDimensions(dims);
+  image->AllocateScalars(VTK_UNSIGNED_CHAR, 3);
+
+  // Make the image red
+  for(unsigned int i = 0; i < dims[0]; ++i)
+  {
+    for(unsigned int j = 0; j < dims[0]; ++j)
+    {
+    unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i,j,0));
+    pixel[0] = 255;
+    pixel[1] = 0;
+    pixel[2] = 0;
+    }
+  }
 }

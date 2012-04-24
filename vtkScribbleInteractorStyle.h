@@ -50,7 +50,7 @@ private:
 
   void ClearTracer();
 
-  // Update the selection when the EndInteraction event is fired.
+  // Update the selection when the EndInteraction event is fired from the vtkImageTracerWidget.
   void CatchWidgetEvent(vtkObject* caller, long unsigned int eventId, void* callData);
 
   // The widget which does most of the work.
