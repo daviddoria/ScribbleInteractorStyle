@@ -1,3 +1,4 @@
+#include <vtkCallbackCommand.h>
 #include <vtkImageActor.h>
 #include <vtkImageData.h>
 #include <vtkRenderWindowInteractor.h>
@@ -8,9 +9,10 @@
 
 #include "vtkScribbleInteractorStyle.h"
 
-void MySlot(vtkPolyData*);
+void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData);
 
 void CreateImage(vtkImageData* const);
+
 int main(int argc, char* argv[])
 {
   // Create an image
@@ -40,13 +42,18 @@ int main(int argc, char* argv[])
   vtkSmartPointer<vtkScribbleInteractorStyle> scribbleInteractorStyle =
     vtkSmartPointer<vtkScribbleInteractorStyle>::New();
 
-  scribbleInteractorStyle->StrokeUpdated.connect(MySlot);
+  vtkSmartPointer<vtkCallbackCommand> callback =
+    vtkSmartPointer<vtkCallbackCommand>::New();
+  callback->SetCallback(MySlot);
+  scribbleInteractorStyle->AddObserver(scribbleInteractorStyle->ScribbleEvent, callback);
+                                         //this, &LidarSegmentationWidget::ScribbleEventHandler);
 
   // Render and start interaction
   renderWindowInteractor->SetRenderWindow(renderWindow);
   renderWindowInteractor->Initialize();
 
   renderWindowInteractor->SetInteractorStyle(scribbleInteractorStyle);
+  scribbleInteractorStyle->SetCurrentRenderer(renderer);
   scribbleInteractorStyle->InitializeTracer(actor); // this must come after the SetInteractorStyle call
 
   renderWindowInteractor->Start();
@@ -54,7 +61,12 @@ int main(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 
-void MySlot(vtkPolyData* polydata)
+// void MySlot(vtkPolyData* polydata)
+// {
+//   std::cout << "Slot called." << std::endl;
+// }
+
+void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData )
 {
   std::cout << "Slot called." << std::endl;
 }

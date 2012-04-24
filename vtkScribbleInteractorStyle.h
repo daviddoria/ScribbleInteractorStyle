@@ -16,45 +16,66 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /*
- * This class emits a signal when the users scribbles on the image.
- */
+ * This class is responsible for the user interaction with the input image.
+ * A vtkImageTracerWidget does most of the work, but this class appends and maintains
+ * the selections.
+*/
 
-#ifndef vtkScribbleInteractorStyle_H
-#define vtkScribbleInteractorStyle_H
+#ifndef InteractorStyleScribble_H
+#define InteractorStyleScribble_H
 
-// VTK
 #include <vtkImageTracerWidget.h>
 #include <vtkInteractorStyleImage.h> // superclass
 #include <vtkSmartPointer.h>
 
-// Boost
-#include <boost/signals2/signal.hpp>
-
-class vtkImageActor;
+class vtkImageSlice;
+class vtkImageData;
+class vtkPolyData;
 
 class vtkScribbleInteractorStyle : public vtkInteractorStyleImage
 {
 public:
-  // Constructors
   static vtkScribbleInteractorStyle* New();
   vtkTypeMacro(vtkScribbleInteractorStyle, vtkInteractorStyleImage);
+
   vtkScribbleInteractorStyle();
 
-  // A signal to indicate that something has changed.
-  boost::signals2::signal<void (vtkPolyData*)> StrokeUpdated;
+  void OnLeftButtonDown();
+  void OnLeftButtonUp();
 
-  // Connect the tracer to the interactor, etc.
-  void InitializeTracer(vtkImageActor* imageActor);
+  void SetColorToGreen();
+  void SetColorToRed();
+
+  vtkPoints* GetSelection();
+
+  /** Empty both the foreground and background selection */
+  void ClearSelections();
+
+  /** Empty the foreground selection */
+  void ClearForegroundSelections();
+
+  /** Empty the background selection */
+  void ClearBackgroundSelections();
+
+  /** Connect the tracer to the interactor, etc. */
+  void InitializeTracer(vtkImageSlice* imageSlice);
+
+  unsigned int ScribbleEvent;
 
 private:
+  void Refresh();
 
-  void ClearTracer();
-
-  // Update the selection when the EndInteraction event is fired from the vtkImageTracerWidget.
+  /** Update the selection when the EndInteraction event is fired. */
   void CatchWidgetEvent(vtkObject* caller, long unsigned int eventId, void* callData);
 
-  // The widget which does most of the work.
+  /** The state (foreground or background) of the selection. */
+  int SelectionType;
+
+  /** The widget which does most of the work. */
   vtkSmartPointer<vtkImageTracerWidget> Tracer;
+
+  /** Keep track of the pixels the user selected. */
+  vtkSmartPointer<vtkPoints> Selection;
 
 };
 
