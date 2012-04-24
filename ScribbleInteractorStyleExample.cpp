@@ -16,13 +16,11 @@ void CreateImage(vtkImageData* const);
 int main(int argc, char* argv[])
 {
   // Create an image
-  vtkSmartPointer<vtkImageData> image =
-    vtkSmartPointer<vtkImageData>::New();
+  vtkSmartPointer<vtkImageData> image = vtkSmartPointer<vtkImageData>::New();
   CreateImage(image);
   
   // Create an actor
-  vtkSmartPointer<vtkImageActor> actor =
-    vtkSmartPointer<vtkImageActor>::New();
+  vtkSmartPointer<vtkImageActor> actor = vtkSmartPointer<vtkImageActor>::New();
   actor->SetInputData(image);
 
   // Setup renderer
@@ -44,9 +42,9 @@ int main(int argc, char* argv[])
 
   vtkSmartPointer<vtkCallbackCommand> callback =
     vtkSmartPointer<vtkCallbackCommand>::New();
+  callback->SetClientData(scribbleInteractorStyle);
   callback->SetCallback(MySlot);
   scribbleInteractorStyle->AddObserver(scribbleInteractorStyle->ScribbleEvent, callback);
-                                         //this, &LidarSegmentationWidget::ScribbleEventHandler);
 
   // Render and start interaction
   renderWindowInteractor->SetRenderWindow(renderWindow);
@@ -61,14 +59,11 @@ int main(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 
-// void MySlot(vtkPolyData* polydata)
-// {
-//   std::cout << "Slot called." << std::endl;
-// }
-
 void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData )
 {
-  std::cout << "Slot called." << std::endl;
+  vtkScribbleInteractorStyle* scribbleInteractorStyle = static_cast<vtkScribbleInteractorStyle*>(clientData);
+  vtkPoints* points = scribbleInteractorStyle->GetSelection();
+  std::cout << "There are " << points->GetNumberOfPoints() << " points in the selection." << std::endl;
 }
 
 void CreateImage(vtkImageData* const image)
