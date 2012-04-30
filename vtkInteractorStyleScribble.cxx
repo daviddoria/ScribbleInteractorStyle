@@ -96,9 +96,6 @@ void vtkInteractorStyleScribble::CatchWidgetEvent(vtkObject* caller, long unsign
   vtkSmartPointer<vtkPolyData> path = vtkSmartPointer<vtkPolyData>::New();
   tracer->GetPath(path);
 
-  // !!!
-  //this->Selection = ITKVTKHelpers::PolyDataToPixelList(path);
-
   this->Selection = path->GetPoints();
 
   // "Clear" the tracer. We must rely on the foreground and background actors to maintain the appropriate colors.
@@ -116,7 +113,7 @@ void vtkInteractorStyleScribble::CatchWidgetEvent(vtkObject* caller, long unsign
 
   this->InvokeEvent(this->ScribbleEvent, NULL);
 
-  std::cout << "Exit CatchWidgetEvent()" << std::endl;
+  //std::cout << "Exit CatchWidgetEvent()" << std::endl;
 };
 
 void vtkInteractorStyleScribble::Refresh()
