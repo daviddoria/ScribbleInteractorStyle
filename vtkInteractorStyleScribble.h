@@ -19,6 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * This class is responsible for the user interaction with the input image.
  * A vtkImageTracerWidget does most of the work, but this class appends and maintains
  * the selections.
+ * Connect to this interactor's event with something like:
+ *   this->InteractorStyle->AddObserver(this->InteractorStyle->ScribbleEvent,
+                                         this, &LidarSegmentationWidget::ScribbleEventHandler);
+ * Note the ScribbleEventHandler function must be a VTK-style slot, e.g.:
+ * void LidarSegmentationWidget::ScribbleEventHandler(vtkObject* caller, long unsigned int eventId, void* callData)
 */
 
 #ifndef vtkInteractorStyleScribble_H
