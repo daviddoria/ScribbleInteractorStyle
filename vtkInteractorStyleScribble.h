@@ -24,6 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                          this, &LidarSegmentationWidget::ScribbleEventHandler);
  * Note the ScribbleEventHandler function must be a VTK-style slot, e.g.:
  * void LidarSegmentationWidget::ScribbleEventHandler(vtkObject* caller, long unsigned int eventId, void* callData)
+ *
+ * You have to call
+ * styleScribble->SetCurrentRenderer(renderer);
+ * styleScribble->InitializeTracer(slice);
+ * in that order before it will work.
 */
 
 #ifndef vtkInteractorStyleScribble_H
@@ -51,7 +56,7 @@ public:
   void SetColorToGreen();
   void SetColorToRed();
 
-  vtkPoints* GetSelection();
+  vtkPolyData* GetSelectionPolyData();
 
   /** Empty both the foreground and background selection */
   void ClearSelections();
@@ -80,7 +85,7 @@ private:
   vtkSmartPointer<vtkImageTracerWidget> Tracer;
 
   /** Keep track of the pixels the user selected. */
-  vtkSmartPointer<vtkPoints> Selection;
+  vtkSmartPointer<vtkPolyData> SelectionPolyData;
 
 };
 

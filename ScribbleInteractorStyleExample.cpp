@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 void MySlot(vtkObject* caller, long unsigned int eventId, void* clientData, void* callData )
 {
   vtkInteractorStyleScribble* scribbleInteractorStyle = static_cast<vtkInteractorStyleScribble*>(clientData);
-  vtkPoints* points = scribbleInteractorStyle->GetSelection();
+  vtkPoints* points = scribbleInteractorStyle->GetSelectionPolyData()->GetPoints();
   std::cout << "There are " << points->GetNumberOfPoints() << " points in the selection." << std::endl;
 }
 

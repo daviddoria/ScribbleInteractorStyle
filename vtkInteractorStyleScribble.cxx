@@ -39,7 +39,7 @@ vtkInteractorStyleScribble::vtkInteractorStyleScribble()
 {
   this->ScribbleEvent = vtkCommand::UserEvent + 1;
 
-  this->Selection = NULL;
+  this->SelectionPolyData = NULL;
 
   // Initializations
   this->Tracer = vtkSmartPointer<vtkImageTracerWidget>::New();
@@ -70,9 +70,9 @@ void vtkInteractorStyleScribble::OnLeftButtonUp()
   vtkInteractorStyleImage::OnMiddleButtonUp();
 }
 
-vtkPoints* vtkInteractorStyleScribble::GetSelection()
+vtkPolyData* vtkInteractorStyleScribble::GetSelectionPolyData()
 {
-  return this->Selection;
+  return this->SelectionPolyData;
 }
 
 void vtkInteractorStyleScribble::InitializeTracer(vtkImageSlice* imageSlice)
@@ -96,7 +96,7 @@ void vtkInteractorStyleScribble::CatchWidgetEvent(vtkObject* caller, long unsign
   vtkSmartPointer<vtkPolyData> path = vtkSmartPointer<vtkPolyData>::New();
   tracer->GetPath(path);
 
-  this->Selection = path->GetPoints();
+  this->SelectionPolyData = path;
 
   // "Clear" the tracer. We must rely on the foreground and background actors to maintain the appropriate colors.
   // If we did not clear the tracer, if we draw a stroke then change the color of the strokes, the last stoke would turn
